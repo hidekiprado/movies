@@ -1,38 +1,32 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Mono:wght@700&display=swap");
 .App {
   text-align: center;
-}
+  background-image: url("/src/movie_background.svg");
+  /* opacity: 0.95; */
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-attachment: fixed;
+  font-family: "Space Mono", monospace;
 }
+a {
+  text-decoration: none;
+}
+/* .navSelectedState {
+  background-color: yellow;
+}
+.navNormalState {
+  background-color: rgba(0, 217, 255, 0.101);
+}
+.navbar {
+  font-size: large;
+  border-radius: 0.7rem;
+  box-shadow: inset 5px 5px 10px #cddede1f, inset -5px -5px 10px #e7fafa1f;
+} */
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+/* .row {
+  background-image: url("/src/row_background.svg");
+} */

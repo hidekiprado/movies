@@ -1,0 +1,16 @@
+.row {
+  justify-content: center;
+  backdrop-filter: blur(3px);
+}
+.card {
+  width: 14rem;
+  background-color: transparent;
+  border-color: transparent;
+  color: #ffffff;
+}
+.card-title {
+  font-size: 15px;
+  font-weight: bolder;
+  display: flex;
+  justify-content: space-between;
+}

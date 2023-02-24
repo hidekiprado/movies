@@ -1,5 +1,15 @@
-import "./NavBar.css";
-import "bootstrap/dist/css/bootstrap.min.css";
+.navSelectedState {
+  background-color: yellow;
+}
+.navNormalState {
+  background-color: rgba(0, 217, 255, 0.101);
+}
+.navbar {
+  font-size: large;
+  border-radius: 0.7rem;
+  box-shadow: inset 5px 5px 10px #cddede1f, inset -5px -5px 10px #e7fafa1f;
+}
+/* import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Nav, Navbar, Form } from "react-bootstrap";
 import { NavLink, useNavigate } from "react-router-dom";
 
@@ -55,4 +65,4 @@ function NavBar(props) {
   );
 }
 
-export default NavBar;
+export default NavBar; */
