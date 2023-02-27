@@ -1,16 +1,38 @@
 .row {
   justify-content: center;
-  backdrop-filter: blur(3px);
+  backdrop-filter: blur(1px);
+  opacity: 0.95;
 }
 .card {
   width: 14rem;
   background-color: transparent;
   border-color: transparent;
   color: #ffffff;
+  border-bottom: #ffffff4e solid 1px;
+  margin: 1em;
 }
 .card-title {
   font-size: 15px;
   font-weight: bolder;
   display: flex;
   justify-content: space-between;
+}
+.score {
+  transform: translate(40%, -40%);
+  font-size: 12px;
+  border-radius: 50px;
+  background-color: #831010;
+  width: 35px;
+  height: 30px;
+  padding: 6px;
+  box-shadow: rgb(197, 148, 148) 10px 0.2px 50px 0.1px;
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(2, 163, 188, 0.9)' stroke-width='5' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+  stroke: rgba(2, 163, 188, 0.9);
+}
+
+#navbar_menu {
+  box-shadow: none;
 }

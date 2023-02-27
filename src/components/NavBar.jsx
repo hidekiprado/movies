@@ -14,23 +14,25 @@ function NavBar(props) {
       props.searchFromNav("a");
     }
   };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") e.preventDefault();
+  };
   return (
     <>
       <Navbar
-        sticky="top"
-        style={{ backgroundColor: "#0B0202", color: "black" }}
+        className="navbar navbar-dark"
+        style={{
+          justifyContent: "space-between",
+        }}
         expand="sm"
       >
         <Container>
-          <NavLink
-            role={"a"}
-            to={"/"}
-            style={{ fontSize: "2rem", color: "#db0000" }}
-          >
-            Movies
-          </NavLink>
-          <Navbar.Toggle aria-controls="navbarScroll" />
-          <Navbar.Collapse id="navbarScroll">
+          {/* div to put brand and input tag together */}
+          <div id="div_brand_input_together">
+            <NavLink id="searchNavBar_brand" role={"a"} to={"/"}>
+              Movies
+            </NavLink>
             <Form className="d-flex">
               <Form.Control
                 type="search"
@@ -39,16 +41,19 @@ function NavBar(props) {
                 aria-label="Search"
                 color="red"
                 onChange={formControlHandler}
+                onFocus={formControlHandler}
+                onKeyDown={handleKeyDown}
               />
             </Form>
-            <Nav
-              className="justify-content-end"
-              style={{ maxHeight: "100px", width: "70%" }}
-              navbarScroll
-            >
-              <Nav.Link href="#action1">git </Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
+          </div>
+          <Nav.Link
+            id="searchNavBar_git"
+            target="_blank"
+            href="https://github.com/hidekiprado/movies"
+          >
+            {" "}
+            Git
+          </Nav.Link>
         </Container>
       </Navbar>
     </>
