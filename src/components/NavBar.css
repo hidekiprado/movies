@@ -12,6 +12,7 @@
 /* div to put brand and input tag together */
 #div_brand_input_together {
   display: flex;
+  flex-wrap: wrap;
   gap: 1em;
 }
 
@@ -21,4 +22,10 @@
 }
 #searchNavBar_git {
   color: rgba(255, 255, 255, 0.405);
+}
+
+@media only screen and (max-width: 600px) {
+  #searchNavBar_git {
+    display: none;
+  }
 }

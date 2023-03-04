@@ -33,6 +33,7 @@ function NavBar(props) {
             <NavLink id="searchNavBar_brand" role={"a"} to={"/"}>
               Movies
             </NavLink>
+
             <Form className="d-flex">
               <Form.Control
                 type="search"
@@ -46,6 +47,7 @@ function NavBar(props) {
               />
             </Form>
           </div>
+
           <Nav.Link
             id="searchNavBar_git"
             target="_blank"

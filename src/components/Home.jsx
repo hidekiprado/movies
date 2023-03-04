@@ -8,7 +8,9 @@ import {
   nowPlayingFetch,
   topRatedFetch,
   upComingFetch,
+  genresFetch,
 } from "../api/API";
+import endPoints from "../constants/endPoints";
 
 const styles = {
   activeStyle: {
@@ -34,24 +36,47 @@ const styles = {
 function Home(props) {
   //Data distribuition
   const [data, setData] = useState(null);
+  const [endPoint, setendPoint] = useState(null);
+  const [expanded, setExpanded] = useState(false);
+
   useEffect(() => {
+    fetch(endPoints.home, {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((res) => setendPoint(res))
+      .catch((err) => err);
+
     async function fetchData() {
+      let response = "";
+      //individual request for genres, only returns a list
+      const genresObj = await genresFetch();
+      // setGenresList(genresObj.genres);
+
       if (props.menu === "popular") {
-        const response = await popularFetch();
-        setData(response);
+        response = await popularFetch();
       } else if (props.menu === "nowPlaying") {
-        const response = await nowPlayingFetch();
-        setData(response);
+        response = await nowPlayingFetch();
       } else if (props.menu === "topRated") {
-        const response = await topRatedFetch();
-        setData(response);
+        response = await topRatedFetch();
       } else if (props.menu === "upcoming") {
-        const response = await upComingFetch();
-        setData(response);
+        response = await upComingFetch();
       } else {
-        const response = await byNameFetch(props.search);
-        setData(response);
+        response = await byNameFetch(props.search);
       }
+      //adding genres names into moviesList
+      response.results.forEach((movieIndividual) => {
+        const newGenresList = [];
+        movieIndividual.genre_ids.forEach((genreID) => {
+          genresObj.genres.forEach((genreFromAPI) => {
+            if (genreID === genreFromAPI.id) {
+              newGenresList.push(genreFromAPI.name);
+            }
+          });
+        });
+        movieIndividual.genreList = newGenresList;
+      });
+      setData(response);
     }
     fetchData();
   }, [props]);
@@ -86,43 +111,28 @@ function Home(props) {
             sticky="top"
             id="navbar_menu"
             expand="sm"
+            expanded={expanded}
           >
-            <Navbar.Toggle aria-controls="navbarScroll" />
+            <Navbar.Toggle
+              onClick={() => setExpanded(!expanded)}
+              aria-controls="navbarScroll"
+            />
             <Navbar.Collapse id="navbarScroll">
               <Nav>
-                <NavLink
-                  to={"/popular"}
-                  style={({ isActive }) =>
-                    isActive ? styles.activeStyle : styles.defaultStyle
-                  }
-                >
-                  Popular
-                </NavLink>
-                <NavLink
-                  to={"/nowPlaying"}
-                  className="nav-link"
-                  style={({ isActive }) =>
-                    isActive ? styles.activeStyle : styles.defaultStyle
-                  }
-                >
-                  Now playing
-                </NavLink>
-                <NavLink
-                  to={"/topRated"}
-                  style={({ isActive }) =>
-                    isActive ? styles.activeStyle : styles.defaultStyle
-                  }
-                >
-                  Top rated
-                </NavLink>
-                <NavLink
-                  to={"/upcoming"}
-                  style={({ isActive }) =>
-                    isActive ? styles.activeStyle : styles.defaultStyle
-                  }
-                >
-                  Upcoming
-                </NavLink>
+                {endPoint?.sections.map((section, index) => {
+                  return (
+                    <NavLink
+                      key={index}
+                      to={section.href}
+                      style={({ isActive }) =>
+                        isActive ? styles.activeStyle : styles.defaultStyle
+                      }
+                      onClick={() => setExpanded(false)}
+                    >
+                      {section.title}
+                    </NavLink>
+                  );
+                })}
               </Nav>
             </Navbar.Collapse>
           </Navbar>
@@ -145,7 +155,17 @@ function Home(props) {
                           {item.vote_average.toFixed(1)}
                         </div>
                       </Card.Title>
-                      <Card.Text>genres</Card.Text>
+                      <p
+                        style={{
+                          fontSize: "12px",
+                          color: "gray",
+                          textAlign: "start",
+                        }}
+                      >
+                        {item.genreList.map((genre) => {
+                          return ` ${genre},`;
+                        })}
+                      </p>
                     </Card.Body>
                   </div>
                 </Card>

@@ -17,7 +17,9 @@ export const popularFetch = () => {
     }
   )
     .then((res) => res.json())
-    .then((res) => res)
+    .then((res) => {
+      return res;
+    })
     .catch((err) => err);
 };
 export const nowPlayingFetch = () => {
@@ -45,6 +47,17 @@ export const topRatedFetch = () => {
 export const upComingFetch = () => {
   return fetch(
     `https://api.themoviedb.org/3/movie/upcoming?api_key=7628a5281d6b5433c1bb079225d0aa8d&language=en-US&page=1`,
+    {
+      method: "GET",
+    }
+  )
+    .then((res) => res.json())
+    .then((res) => res)
+    .catch((err) => err);
+};
+export const genresFetch = () => {
+  return fetch(
+    `https://api.themoviedb.org/3/genre/movie/list?api_key=7628a5281d6b5433c1bb079225d0aa8d&language=en-US`,
     {
       method: "GET",
     }
