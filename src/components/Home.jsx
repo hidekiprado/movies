@@ -12,6 +12,8 @@ import {
 } from "../api/API";
 import endPoints from "../constants/endPoints";
 
+//menu bar style when active
+// Popular, Now playing, Top rated, Upcoming
 const styles = {
   activeStyle: {
     color: "#db0000",
@@ -40,6 +42,7 @@ function Home(props) {
   const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
+    //fetching endpoints
     fetch(endPoints.home, {
       method: "GET",
     })
@@ -47,6 +50,7 @@ function Home(props) {
       .then((res) => setendPoint(res))
       .catch((err) => err);
 
+    //fetching data from API
     async function fetchData() {
       let response = "";
       //individual request for genres, only returns a list
@@ -87,7 +91,7 @@ function Home(props) {
   const [navColor, setnavColor] = useState("transparent");
   const listenScrollEvent = () => {
     window.scrollY > 10
-      ? setnavColor("rgb(0, 0, 0, 0.95)")
+      ? setnavColor("rgb(16, 14, 14, 0.97)")
       : setnavColor("transparent");
     window.scrollY > 10 ? setnavSize("4rem") : setnavSize("5rem");
   };
@@ -155,13 +159,7 @@ function Home(props) {
                           {item.vote_average.toFixed(1)}
                         </div>
                       </Card.Title>
-                      <p
-                        style={{
-                          fontSize: "12px",
-                          color: "gray",
-                          textAlign: "start",
-                        }}
-                      >
+                      <p className="genres">
                         {item.genreList.map((genre) => {
                           return ` ${genre},`;
                         })}
