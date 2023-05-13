@@ -1,5 +1,6 @@
 import "./Home.css";
 import { Container, Row, Card, Nav, Navbar } from "react-bootstrap";
+import { Fade } from "react-awesome-reveal";
 import { NavLink } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import {
@@ -40,8 +41,18 @@ function Home(props) {
   const [data, setData] = useState(null);
   const [endPoint, setendPoint] = useState(null);
   const [expanded, setExpanded] = useState(false);
+  //Nav sticky motion effects
+  const [navSize, setnavSize] = useState("5rem");
+  const [navColor, setnavColor] = useState("transparent");
 
   useEffect(() => {
+    // Popular, Now playing, Top rated, Upcoming
+    const listenScrollEvent = () => {
+      window.scrollY > 10
+        ? setnavColor("rgb(16, 14, 14, 0.97)")
+        : setnavColor("transparent");
+      window.scrollY > 10 ? setnavSize("4rem") : setnavSize("5rem");
+    };
     //fetching endpoints
     fetch(endPoints.home, {
       method: "GET",
@@ -56,17 +67,21 @@ function Home(props) {
       //individual request for genres, only returns a list
       const genresObj = await genresFetch();
       // setGenresList(genresObj.genres);
-
-      if (props.menu === "popular") {
-        response = await popularFetch();
-      } else if (props.menu === "nowPlaying") {
-        response = await nowPlayingFetch();
-      } else if (props.menu === "topRated") {
-        response = await topRatedFetch();
-      } else if (props.menu === "upcoming") {
-        response = await upComingFetch();
-      } else {
-        response = await byNameFetch(props.search);
+      switch (props.menu) {
+        case "popular":
+          response = await popularFetch();
+          break;
+        case "nowPlaying":
+          response = await nowPlayingFetch();
+          break;
+        case "topRated":
+          response = await topRatedFetch();
+          break;
+        case "upcoming":
+          response = await upComingFetch();
+          break;
+        default:
+          response = await byNameFetch(props.search);
       }
       //adding genres names into moviesList
       response.results.forEach((movieIndividual) => {
@@ -82,25 +97,13 @@ function Home(props) {
       });
       setData(response);
     }
-    fetchData();
-  }, [props]);
 
-  //Nav sticky motion effects
-  // Popular, Now playing, Top rated, Upcoming
-  const [navSize, setnavSize] = useState("5rem");
-  const [navColor, setnavColor] = useState("transparent");
-  const listenScrollEvent = () => {
-    window.scrollY > 10
-      ? setnavColor("rgb(16, 14, 14, 0.97)")
-      : setnavColor("transparent");
-    window.scrollY > 10 ? setnavSize("4rem") : setnavSize("5rem");
-  };
-  useEffect(() => {
+    fetchData();
     window.addEventListener("scroll", listenScrollEvent);
     return () => {
       window.removeEventListener("scroll", listenScrollEvent);
     };
-  }, []);
+  }, [props]);
 
   return (
     <>
@@ -126,6 +129,7 @@ function Home(props) {
                 {endPoint?.sections.map((section, index) => {
                   return (
                     <NavLink
+                      className="menuIcon"
                       key={index}
                       to={section.href}
                       style={({ isActive }) =>
@@ -140,38 +144,44 @@ function Home(props) {
               </Nav>
             </Navbar.Collapse>
           </Navbar>
-
-          {data?.results.map((item, index) => {
-            if (item.poster_path) {
-              return (
+          {data ? (
+            data.results.map((item, index) =>
+              item.poster_path ? (
                 <Card key={index}>
-                  <div>
-                    <Card.Img
-                      variant="top"
-                      src={
-                        "https://image.tmdb.org/t/p/original" + item.poster_path
-                      }
-                    />
-                    <Card.Body>
-                      <Card.Title>
-                        {item.title}
-                        <div className="score">
-                          {item.vote_average.toFixed(1)}
-                        </div>
-                      </Card.Title>
-                      <p className="genres">
-                        {item.genreList.map((genre) => {
-                          return ` ${genre},`;
-                        })}
-                      </p>
-                    </Card.Body>
-                  </div>
+                  <Fade>
+                    <div>
+                      <Card.Img
+                        variant="top"
+                        src={
+                          "https://image.tmdb.org/t/p/original" +
+                          item.poster_path
+                        }
+                      />
+                      <Card.Body>
+                        <Card.Title>
+                          {item.title}
+                          <div className="score">
+                            {item.vote_average.toFixed(1)}
+                          </div>
+                        </Card.Title>
+                        <p className="genres">
+                          {item.genreList.map((genre) => {
+                            return ` ${genre},`;
+                          })}
+                        </p>
+                      </Card.Body>
+                    </div>
+                  </Fade>
                 </Card>
-              );
-            } else {
-              return "";
-            }
-          })}
+              ) : (
+                ""
+              )
+            )
+          ) : (
+            <div className="divLoader">
+              <div className="loader"></div>
+            </div>
+          )}
         </Row>
       </Container>
     </>
