@@ -28,7 +28,6 @@ function NavBar(props) {
         expand="sm"
       >
         <Container>
-          {/* div to put brand and input tag together */}
           <div id="div_brand_input_together">
             <NavLink id="searchNavBar_brand" role={"a"} to={"/"}>
               Movies
