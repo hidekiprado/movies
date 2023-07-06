@@ -53,8 +53,8 @@
   box-shadow: none;
 }
 
-.navbar-toggler {
-  background-color: #ffffff;
+.navbar-toggler-icon {
+  /* background-color: #ffffff; */
   transition: 1s;
 }
 .genres {
